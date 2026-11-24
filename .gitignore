@@ -1,0 +1,50 @@
+# --- Palworld saves and world data (never commit real saves) ---
+*.sav
+*.sav.bak
+SaveGames/
+Saved/
+**/Pal/Saved/
+snapshots/
+lab/
+
+# --- Runtime data written by the mod ---
+PalHomewardData/
+
+# --- Logs (may contain player identifiers) ---
+*.log
+logs/
+UE4SS.log
+
+# --- Native binaries and third-party loaders ---
+*.dll
+*.exe
+*.pdb
+UE4SS/
+ue4ss/
+
+# --- Secrets ---
+.env
+.env.*
+*.pem
+*.key
+secrets/
+credentials*.json
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+
+# --- Editors / OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- Local agent settings ---
+.claude/settings.local.json
