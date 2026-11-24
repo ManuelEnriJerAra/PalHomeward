@@ -1,22 +1,28 @@
 package.path = "mod/PalHomeward/Scripts/?.lua;" .. package.path
 
-local function discover(filter)
-    local command = [[find tests/unit -maxdepth 1 -type f -name '*_spec.lua']]
+local function discover_in(directory, filter, specs)
+    local command = "if [ -d " .. directory .. " ]; then find " .. directory ..
+        " -maxdepth 1 -type f -name '*_spec.lua'; fi"
     local prefix = ""
     if package.config:sub(1, 1) == "\\" then
-        command = [[dir /b /a-d "tests\unit\*_spec.lua"]]
-        prefix = "tests/unit/"
+        command = [[for %F in ("]] .. directory:gsub("/", "\\") .. [[\*_spec.lua") do @echo %~nxF]]
+        prefix = directory .. "/"
     end
 
     local pipe = assert(io.popen(command))
-    local specs = {}
     for name in pipe:lines() do
         local filename = name:match("[^/\\]+$")
         if filename and filename:find(filter, 1, true) then
             specs[#specs + 1] = prefix .. name
         end
     end
-    assert(pipe:close(), "Could not list Lua specs in tests/unit")
+    assert(pipe:close(), "Could not list Lua specs in " .. directory)
+end
+
+local function discover(filter)
+    local specs = {}
+    discover_in("tests/unit", filter, specs)
+    discover_in("tests/property", filter, specs)
     table.sort(specs)
     return specs
 end

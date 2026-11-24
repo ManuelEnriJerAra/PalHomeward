@@ -1,9 +1,10 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "PalHomeward ownership registry v1 fixture contract",
+  "title": "PalHomeward ownership registry v1",
   "type": "object",
-  "required": ["schemaVersion", "worldId", "gameBuild", "revision", "pals"],
+  "required": ["schemaVersion", "worldId", "revision"],
   "additionalProperties": false,
+  "oneOf": [{ "required": ["pals"] }, { "required": ["pals_list"] }],
   "properties": {
     "schemaVersion": { "const": 1 },
     "worldId": { "$ref": "#/$defs/nonEmptyString" },
@@ -12,19 +13,29 @@
     "pals": {
       "type": "object",
       "propertyNames": { "minLength": 1 },
-      "additionalProperties": { "$ref": "#/$defs/pal" }
+      "additionalProperties": {
+        "$ref": "#/$defs/pal",
+        "unevaluatedProperties": false
+      }
+    },
+    "pals_list": {
+      "description": "Alternate input form. The loader also checks uniqueness by palId.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/pal",
+        "required": ["palId"],
+        "properties": { "palId": { "$ref": "#/$defs/nonEmptyString" } },
+        "unevaluatedProperties": false
+      }
     }
   },
   "$defs": {
     "nonEmptyString": { "type": "string", "minLength": 1 },
-    "revision": { "type": "integer", "minimum": 0 },
+    "revision": { "type": "integer", "minimum": 0, "maximum": 9223372036854775807 },
     "pal": {
       "type": "object",
-      "required": [
-        "ownerUid", "ownerEvidence", "ownerEvidenceRevision", "status",
-        "lastKnownBaseId", "lastKnownContainerId", "lastSeenOperationId"
-      ],
-      "additionalProperties": false,
+      "required": ["status"],
       "properties": {
         "ownerUid": { "anyOf": [{ "$ref": "#/$defs/nonEmptyString" }, { "type": "null" }] },
         "ownerEvidence": { "$ref": "#/$defs/nonEmptyString" },
@@ -35,7 +46,10 @@
         "lastSeenOperationId": { "$ref": "#/$defs/nonEmptyString" }
       },
       "if": { "properties": { "status": { "const": "VERIFIED" } }, "required": ["status"] },
-      "then": { "properties": { "ownerUid": { "$ref": "#/$defs/nonEmptyString" } } }
+      "then": {
+        "required": ["ownerUid", "ownerEvidence", "ownerEvidenceRevision"],
+        "properties": { "ownerUid": { "$ref": "#/$defs/nonEmptyString" } }
+      }
     }
   }
 }
