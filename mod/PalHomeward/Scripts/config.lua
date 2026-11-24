@@ -11,10 +11,23 @@ local function defaults()
             Structured = true,
             RedactSensitiveFields = true,
         },
+        Probe = { Enabled = false, StartDelayMs = 0 },
     }
 end
 
 local config = defaults()
+local loaded, override = pcall(require, "local_config")
+if loaded and type(override) == "table" then
+    for key, value in pairs(override) do
+        if type(config[key]) == "table" and type(value) == "table" then
+            for field, setting in pairs(value) do
+                config[key][field] = setting
+            end
+        else
+            config[key] = value
+        end
+    end
+end
 local modes = { OBSERVE = true, PROTECT = true, AUTO_RETURN = true }
 local languages = { en = true, es = true }
 local levels = { DEBUG = true, INFO = true, WARN = true, ERROR = true }
@@ -43,6 +56,14 @@ function config.validate(cfg)
         check(levels[log.Level], "Logging.Level", "DEBUG, INFO, WARN or ERROR")
         check(type(log.Structured) == "boolean", "Logging.Structured", "a boolean")
         check(type(log.RedactSensitiveFields) == "boolean", "Logging.RedactSensitiveFields", "a boolean")
+    end
+
+    local probe = cfg.Probe
+    check(type(probe) == "table", "Probe", "a table")
+    if type(probe) == "table" then
+        check(type(probe.Enabled) == "boolean", "Probe.Enabled", "a boolean")
+        local delay = type(probe.StartDelayMs) == "number" and math.tointeger(probe.StartDelayMs)
+        check(delay and delay >= 0, "Probe.StartDelayMs", "a non-negative integer")
     end
     return #errors == 0, errors
 end

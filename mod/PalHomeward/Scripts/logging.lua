@@ -1,5 +1,5 @@
 local levels = { DEBUG = 1, INFO = 2, WARN = 3, ERROR = 4 }
-local sensitive = { playerUid = true, ownerUid = true, actorUid = true }
+local max_line_length = 1498
 local methods = {}
 
 local function one_line(value)
@@ -21,12 +21,16 @@ for level, priority in pairs(levels) do
         local parts = { "[PalHomeward]", level, one_line(event) }
         for _, key in ipairs(keys) do
             local value = tostring(fields[key])
-            if self.redact and sensitive[key] then
-                value = value:sub(1, 4) .. "???"
+            if self.redact and key:match("U[iI]d$") then
+                value = value:sub(1, 4) .. "..."
             end
             parts[#parts + 1] = one_line(key) .. "=" .. one_line(value)
         end
-        self.sink(table.concat(parts, " "))
+        local line = table.concat(parts, " ")
+        if #line > max_line_length then
+            line = line:sub(1, max_line_length - 3) .. "..."
+        end
+        self.sink(line)
     end
 end
 

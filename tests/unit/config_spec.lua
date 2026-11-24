@@ -8,6 +8,8 @@ describe("configuration", function()
         assert_eq(config.Mode, "OBSERVE")
         assert_eq(config.Language, "en")
         assert_true(config.Logging.RedactSensitiveFields)
+        assert_eq(config.Probe.Enabled, false)
+        assert_eq(config.Probe.StartDelayMs, 0)
     end)
 
     it("validates all supported mode names and locales", function()
@@ -50,5 +52,20 @@ describe("configuration", function()
             safe.Logging.Level = "DEBUG"
             assert_eq(config.resolve(nil).Logging.Level, "INFO")
         end
+    end)
+
+    it("rejects invalid probe sections and delays and disables the probe on fallback", function()
+        local cfg = config.resolve(nil)
+        for _, delay in ipairs({ -1, 1.5, "300", math.huge, 0 / 0 }) do
+            cfg.Probe = { Enabled = true, StartDelayMs = delay }
+            local safe, errors = config.resolve(cfg)
+            assert_eq(#errors, 1)
+            assert_match(errors[1], "Probe%.StartDelayMs")
+            assert_eq(safe.Probe.Enabled, false)
+        end
+        cfg.Probe = { Enabled = "yes", StartDelayMs = 0 }
+        assert_eq(config.validate(cfg), false)
+        cfg.Probe = false
+        assert_eq(config.validate(cfg), false)
     end)
 end)
