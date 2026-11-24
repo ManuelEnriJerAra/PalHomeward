@@ -4,6 +4,8 @@ Store evidence in `docs/evidence/G0/` through `docs/evidence/G8/`, under the gat
 
 Commit reproducible steps, exact builds and commit SHAs, anonymized logs and captures from an authorized lab, and snapshot hashes or sanitized manifests. Keep real saves, un-anonymized player IDs, private logs, secrets and DLLs out of Git. Use synthetic or explicitly anonymized fixtures. Keep snapshot data outside the repository and reference it by hash or manifest.
 
+For G1 logs, replace the absolute server installation path with `<SERVER_ROOT>`, the absolute user home path with `<USER_HOME>` and the timezone value with `<REDACTED>`. Keep the original log clock values, label them as local when the UTC offset is unavailable, and compute SHA-256 after redaction. Keep the raw logs and any credential values outside Git.
+
 For each test, use the [evidence format](../test-protocol.md#evidence-format-per-test). Record the test ID, time in UTC, game build, UE4SS version, mod commit, snapshot hash, pseudonymized identities, expected and actual state, attribute fingerprints, operation ID, artifact paths and result. Label simulated tests as simulations. Report `PASS`, `FAIL`, `BLOCKED` or `NOT_RUN` based on the actual run. Never fabricate evidence.
 
 G5–G8 require human sign-off backed by evidence from the real installation. Record release approval in `docs/evidence/G8/signoff.md`.
