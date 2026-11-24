@@ -28,6 +28,7 @@ def test_build_package_layout_and_cleanup(tmp_path):
     assert neighbor.is_dir()
     assert {path.name for path in target.iterdir()} == {"Info.json", "Scripts"}
     assert (target / "Scripts/main.lua").is_file()
+    assert not (target / "Scripts/local_config.lua").exists()
     info = json.loads((target / "Info.json").read_text(encoding="utf-8"))
     assert info["Version"] == "0.0.1"
     assert info["DebugMode"] is False
@@ -40,6 +41,34 @@ def test_build_package_overrides(tmp_path):
     info = json.loads((tmp_path / "42/Info.json").read_text(encoding="utf-8"))
     assert info["Version"] == "lab-test"
     assert info["DebugMode"] is True
+
+
+def test_enable_probe_writes_lab_override_and_default_rebuild_removes_it(tmp_path):
+    result = run_builder(tmp_path, "--debug-mode", "--enable-probe")
+    override = tmp_path / "9000000002/Scripts/local_config.lua"
+
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert "WARNING" in result.stderr and "LAB USE ONLY" in result.stderr
+    assert override.read_text(encoding="utf-8") == "return { Probe = { Enabled = true, StartDelayMs = 0 } }\n"
+
+    result = run_builder(tmp_path)
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert not override.exists()
+
+
+def test_builder_excludes_source_local_override(tmp_path, monkeypatch):
+    from tools import build_package
+
+    scripts = tmp_path / "source"
+    scripts.mkdir()
+    (scripts / "main.lua").touch()
+    (scripts / "local_config.lua").write_text("local settings", encoding="utf-8")
+    monkeypatch.setattr(build_package, "SCRIPTS", scripts)
+
+    package = build_package.build_package(tmp_path / "output", "42", None, False)
+
+    assert (package / "Scripts/main.lua").is_file()
+    assert not (package / "Scripts/local_config.lua").exists()
 
 
 @pytest.mark.parametrize("item_id", ["not-numeric", "../42"])

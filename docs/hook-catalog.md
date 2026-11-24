@@ -8,7 +8,7 @@ Record one card per candidate to capture the exact build, source, runtime observ
 
 Automatic return requires evidence of both cancellation and redirection. See the [discovery protocol](plan.md#8-hook-research-and-discovery-protocol).
 
-`REFLECTION_ONLY` means the class and function are `VERIFIED` in the pinned build's reflection. Derived native paths use the `/Script/Pal.Class:Function` form with the native class prefix removed. The `path_evidence` field records that registration on the dedicated server is pending. Runtime confidence starts at `OBSERVED` only after a correlated server event is captured. Signatures, ranking and negative findings are in the [reflection survey](research/PH-003-reflection-survey.md).
+`REFLECTION_ONLY` means the class and function are `VERIFIED` in the pinned build's reflection. Derived native paths use the `/Script/Pal.Class:Function` form with the native class prefix removed. The `path_evidence` field records registration on the dedicated server: all 12 cards registered PRE and POST callbacks on 2026-11-24 (registration only, no events observed yet). Runtime confidence starts at `OBSERVED` only after a correlated server event is captured. Signatures, ranking and negative findings are in the [reflection survey](research/PH-003-reflection-survey.md).
 
 ## Hook card template
 
@@ -40,7 +40,7 @@ confidence: "REFLECTION_ONLY|OBSERVED|CROSS_CHECKED|VERIFIED"
 ```yaml
 hook_id: H-001
 path: "/Script/Pal.PalNetworkBaseCampComponent:RequestMoveWorkerToPalBox_ToServer"
-path_evidence: "DERIVED_FROM_REFLECTION, NOT_YET_REGISTERED"
+path_evidence: "DERIVED_FROM_REFLECTION; RegisterHook PRE+POST VERIFIED on server v1.0.5.102999 (2026-11-24, docs/evidence/G2/probe-registration.UE4SS.log)"
 engine_class: "UPalNetworkBaseCampComponent"
 game_build: "v1.0.5.102999 (25247047)"
 ue4ss_version: "v4.0.0"
@@ -63,7 +63,7 @@ confidence: "REFLECTION_ONLY"
 ```yaml
 hook_id: H-002
 path: "/Script/Pal.PalNetworkCharacterContainerComponent:RequestMoveToPalBox_ToServer_Rep"
-path_evidence: "DERIVED_FROM_REFLECTION, NOT_YET_REGISTERED"
+path_evidence: "DERIVED_FROM_REFLECTION; RegisterHook PRE+POST VERIFIED on server v1.0.5.102999 (2026-11-24, docs/evidence/G2/probe-registration.UE4SS.log)"
 engine_class: "UPalNetworkCharacterContainerComponent"
 game_build: "v1.0.5.102999 (25247047)"
 ue4ss_version: "v4.0.0"
@@ -86,7 +86,7 @@ confidence: "REFLECTION_ONLY"
 ```yaml
 hook_id: H-003
 path: "/Script/Pal.PalNetworkCharacterContainerComponent:RequestMove_ToServer_Rep"
-path_evidence: "DERIVED_FROM_REFLECTION, NOT_YET_REGISTERED"
+path_evidence: "DERIVED_FROM_REFLECTION; RegisterHook PRE+POST VERIFIED on server v1.0.5.102999 (2026-11-24, docs/evidence/G2/probe-registration.UE4SS.log)"
 engine_class: "UPalNetworkCharacterContainerComponent"
 game_build: "v1.0.5.102999 (25247047)"
 ue4ss_version: "v4.0.0"
@@ -109,7 +109,7 @@ confidence: "REFLECTION_ONLY"
 ```yaml
 hook_id: H-004
 path: "/Script/Pal.PalNetworkBaseCampComponent:RequestSwapWorkerSlot_ToServer"
-path_evidence: "DERIVED_FROM_REFLECTION, NOT_YET_REGISTERED"
+path_evidence: "DERIVED_FROM_REFLECTION; RegisterHook PRE+POST VERIFIED on server v1.0.5.102999 (2026-11-24, docs/evidence/G2/probe-registration.UE4SS.log)"
 engine_class: "UPalNetworkBaseCampComponent"
 game_build: "v1.0.5.102999 (25247047)"
 ue4ss_version: "v4.0.0"
@@ -132,7 +132,7 @@ confidence: "REFLECTION_ONLY"
 ```yaml
 hook_id: H-005
 path: "/Script/Pal.PalNetworkCharacterContainerComponent:RequestSwap_ToServer_Rep"
-path_evidence: "DERIVED_FROM_REFLECTION, NOT_YET_REGISTERED"
+path_evidence: "DERIVED_FROM_REFLECTION; RegisterHook PRE+POST VERIFIED on server v1.0.5.102999 (2026-11-24, docs/evidence/G2/probe-registration.UE4SS.log)"
 engine_class: "UPalNetworkCharacterContainerComponent"
 game_build: "v1.0.5.102999 (25247047)"
 ue4ss_version: "v4.0.0"
@@ -155,7 +155,7 @@ confidence: "REFLECTION_ONLY"
 ```yaml
 hook_id: H-006
 path: "/Script/Pal.PalNetworkBaseCampComponent:RequestMoveCharacterToWorker_ToServer"
-path_evidence: "DERIVED_FROM_REFLECTION, NOT_YET_REGISTERED"
+path_evidence: "DERIVED_FROM_REFLECTION; RegisterHook PRE+POST VERIFIED on server v1.0.5.102999 (2026-11-24, docs/evidence/G2/probe-registration.UE4SS.log)"
 engine_class: "UPalNetworkBaseCampComponent"
 game_build: "v1.0.5.102999 (25247047)"
 ue4ss_version: "v4.0.0"
@@ -178,7 +178,7 @@ confidence: "REFLECTION_ONLY"
 ```yaml
 hook_id: H-007
 path: "/Script/Pal.PalNetworkBaseCampComponent:RequestUnassignWorkInBaseCamp_ToServer"
-path_evidence: "DERIVED_FROM_REFLECTION, NOT_YET_REGISTERED"
+path_evidence: "DERIVED_FROM_REFLECTION; RegisterHook PRE+POST VERIFIED on server v1.0.5.102999 (2026-11-24, docs/evidence/G2/probe-registration.UE4SS.log)"
 engine_class: "UPalNetworkBaseCampComponent"
 game_build: "v1.0.5.102999 (25247047)"
 ue4ss_version: "v4.0.0"
@@ -201,7 +201,7 @@ confidence: "REFLECTION_ONLY"
 ```yaml
 hook_id: H-008
 path: "/Script/Pal.PalNetworkCharacterContainerComponent:RequestEmptySlot_ToServer_Rep"
-path_evidence: "DERIVED_FROM_REFLECTION, NOT_YET_REGISTERED"
+path_evidence: "DERIVED_FROM_REFLECTION; RegisterHook PRE+POST VERIFIED on server v1.0.5.102999 (2026-11-24, docs/evidence/G2/probe-registration.UE4SS.log)"
 engine_class: "UPalNetworkCharacterContainerComponent"
 game_build: "v1.0.5.102999 (25247047)"
 ue4ss_version: "v4.0.0"
@@ -224,7 +224,7 @@ confidence: "REFLECTION_ONLY"
 ```yaml
 hook_id: H-009
 path: "/Script/Pal.PalIndividualCharacterSlotsObserver:OnUpdateSlot"
-path_evidence: "DERIVED_FROM_REFLECTION, NOT_YET_REGISTERED"
+path_evidence: "DERIVED_FROM_REFLECTION; RegisterHook PRE+POST VERIFIED on server v1.0.5.102999 (2026-11-24, docs/evidence/G2/probe-registration.UE4SS.log)"
 engine_class: "UPalIndividualCharacterSlotsObserver"
 game_build: "v1.0.5.102999 (25247047)"
 ue4ss_version: "v4.0.0"
@@ -247,7 +247,7 @@ confidence: "REFLECTION_ONLY"
 ```yaml
 hook_id: H-010
 path: "/Script/Pal.PalPlayerDataPalStorage:OnUpdateCharacterContainer_InServer"
-path_evidence: "DERIVED_FROM_REFLECTION, NOT_YET_REGISTERED"
+path_evidence: "DERIVED_FROM_REFLECTION; RegisterHook PRE+POST VERIFIED on server v1.0.5.102999 (2026-11-24, docs/evidence/G2/probe-registration.UE4SS.log)"
 engine_class: "UPalPlayerDataPalStorage"
 game_build: "v1.0.5.102999 (25247047)"
 ue4ss_version: "v4.0.0"
@@ -270,7 +270,7 @@ confidence: "REFLECTION_ONLY"
 ```yaml
 hook_id: H-011
 path: "/Script/Pal.PalBaseCampModuleMedical:OnRemovedWorkerInServer"
-path_evidence: "DERIVED_FROM_REFLECTION, NOT_YET_REGISTERED"
+path_evidence: "DERIVED_FROM_REFLECTION; RegisterHook PRE+POST VERIFIED on server v1.0.5.102999 (2026-11-24, docs/evidence/G2/probe-registration.UE4SS.log)"
 engine_class: "UPalBaseCampModuleMedical"
 game_build: "v1.0.5.102999 (25247047)"
 ue4ss_version: "v4.0.0"
@@ -293,7 +293,7 @@ confidence: "REFLECTION_ONLY"
 ```yaml
 hook_id: H-012
 path: "/Script/Pal.PalPlayerController:RequestMoveToWorker_ToServer"
-path_evidence: "DERIVED_FROM_REFLECTION, NOT_YET_REGISTERED"
+path_evidence: "DERIVED_FROM_REFLECTION; RegisterHook PRE+POST VERIFIED on server v1.0.5.102999 (2026-11-24, docs/evidence/G2/probe-registration.UE4SS.log)"
 engine_class: "APalPlayerController"
 game_build: "v1.0.5.102999 (25247047)"
 ue4ss_version: "v4.0.0"

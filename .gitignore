@@ -10,12 +10,14 @@ lab/
 
 # --- Runtime data written by the mod ---
 PalHomewardData/
+local_config.lua
 
 # --- Logs (may contain player identifiers) ---
 *.log
 logs/
 UE4SS.log
 !/docs/evidence/G1/startup-0[123].UE4SS.log
+!/docs/evidence/G2/*.UE4SS.log
 
 # --- Native binaries and third-party loaders ---
 *.dll
