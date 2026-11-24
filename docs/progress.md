@@ -18,7 +18,7 @@
 |---|---|---|---|---|
 | 1 | PH-001 | DONE | Create repository, `AGENTS.md`, progress tracking and documentation | Auditable `G0` structure |
 | 2 | PH-002 | DONE | Set up `pytest`, Lua runner, syntax checks, fixtures, package tooling and CI | Minimal tests executed independently of Palworld |
-| 3 | PH-003 | TODO | Research primary sources, licenses and versions | `docs/hook-catalog.md` with candidates marked UNVERIFIED |
+| 3 | PH-003 | REVIEW | Survey the dedicated server reflection dump, review licenses and plan the read-only probe | Ranked, source-checked declarations and 12 `REFLECTION_ONLY` hook cards. [Survey](research/PH-003-reflection-survey.md) |
 | 4 | PH-004 | TODO | Prepare a cold snapshot and manifest script | Two fixture restorations without touching real worlds |
 | 5 | PH-005 | DONE | Build the local package with `tools/build_package.py`. The official uploader GUI was not used. | Valid package, `Info.json` and documentation |
 | 6 | PH-006 | DONE | Record Windows dedicated server evidence, lab setup and tooling. Pending review. | G1 with actual logs and game build |
@@ -27,13 +27,24 @@
 | 9 | PH-009 | TODO | Implement destination policy and journal with fakes | G4 complete |
 | 10 | PH-010 | TODO | Prototype cancellation in a disposable world | G5 with 20 real tests |
 
-Next ticket: PH-003
+Next ticket: PH-007 after PH-003 review.
 
-Current blocker: none for PH-003 research.
+Current blocker: G2 still requires actual dedicated-server traces, including the canonical cross-owner cases. One Steam account is available for the initial lab protocol.
 
 Last verified build: v1.0.5.102999 (Steam build 25247047)
 
 ## Session log
+
+### PH-003 — Reflection research for G2
+
+- **Phase, status and objective.** `F2/G2` preparation, `REVIEW`, 2026-11-24. Rank candidates for the eight research questions, cite exact reflected signatures and line numbers, derive the native paths and prepare a read-only PH-007 procedure.
+- **Dependencies and verified inputs.** G1 lab cycle, Palworld Dedicated Server `v1.0.5.102999` (Steam build `25247047`), UE4SS `v4.0.0`, Windows, and 2,279 lab Lua type files. Declarations are `VERIFIED` as reflection entries. REF-01 and SAVE-01 were consulted at concept level. REF-02 was excluded. [Provenance](research/PH-003-reflection-survey.md#inputs-and-provenance), [license review](research/licenses.md)
+- **Authorized files and implementation.** The reflection survey, hook catalog, license review, PH-007 probe plan and this progress log are the ticket deliverables. No engine code, installation, saves, lab data, plans or Git history were changed. The dump and original reference files stay outside the repository.
+- **Required offline checks.** `.venv\Scripts\python -m pytest -q` encountered eight setup errors due to Windows temp-directory permissions (13 passed before errors). The retry `.venv\Scripts\python -m pytest -q -p no:cacheprovider --basetemp=dist/ph-003-pytest -rs` was `PASS` with 20 passed and one existing directory-symlink test skipped (Windows privilege unavailable). `lua54 tests/lua/runner.lua` was `PASS` with 13 passed and zero failed. `.venv\Scripts\python tools/check_lua_syntax.py` was `PASS` with nine files and zero failures. `.venv\Scripts\python tools/validate_package.py` was `PASS` for the source manifest.
+- **Required evidence and acceptance.** The temporary verifier outside the repository matched 76/76 quoted function lines verbatim (73 unique, zero missing), 103 cited source locations and their included annotations, and all 12 catalog/probe path pairs. Signature or path mismatches fail the research check. The Git diff for both plans is empty. The catalog paths are all `DERIVED_FROM_REFLECTION, NOT_YET_REGISTERED`.
+- **Required Palworld tests and open questions.** `NOT_RUN` for registration, dedicated callback delivery, phase, actor and instance correlation, slot and owner semantics, and alternate UI paths. `BLOCKED` for canonical cross-owner cases with the current single-account setup. Phase, permission, offline storage, cancellation and redirection remain `UNVERIFIED`. [Single-account and follow-up protocol](research/PH-007-probe-plan.md#single-account-manual-protocol)
+- **Rollback and residual risks.** Revert only the five PH-003 documents to withdraw the research. Candidate registration can fail, and a callback can observe an already changed slot. No runtime behavior or gate promotion follows from reflection.
+- **Next step.** After review, implement the read-only PH-007 probe and capture the single-account observations first. G2 remains `NOT_STARTED` pending runtime work and requires the full F2 acceptance evidence.
 
 ### PH-006 — G1 lab evidence and tooling
 
