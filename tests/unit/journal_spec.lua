@@ -212,7 +212,14 @@ describe("operation journal", function()
             local backend = assert(journal.file_backend(path))
             assert(journal.open(backend, "world"))
             local invalid = assert(journal.file_backend(path .. "/journal.jsonl"))
-            reject("PERSISTENCE_FAILED", assert(journal.open(invalid, "world")):prepare(op()))
+            -- A file used as a directory fails closed on every platform, but at different points:
+            -- Linux reports ENOTDIR when replaying, Windows only when the first append is attempted.
+            local opened, open_err = journal.open(invalid, "world")
+            if opened then
+                reject("PERSISTENCE_FAILED", opened:prepare(op()))
+            else
+                assert_eq(open_err, "PERSISTENCE_FAILED")
+            end
             assert(os.remove(path))
             assert(journal.open(backend, "world"))
             assert(assert(journal.open(backend, "world")):prepare(op()))
