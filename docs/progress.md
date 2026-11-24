@@ -4,9 +4,9 @@
 |---|---|---|---|
 | G0 | PASS | PR #1, PR #2 and green CI run reported by the reviewer | - |
 | G1 | PASS | [Reviewer G1 startup and disable evidence](evidence/G1/README.md). Cold snapshot restoration PASS (reviewer, 11:59). Paired before/after hashes of a no-mutation cycle are `NOT_RUN`. | - |
-| G2 | NOT_STARTED | - | - |
-| G3 | NOT_STARTED | - | - |
-| G4 | NOT_STARTED | - | - |
+| G2 | IN_PROGRESS | [12/12 probe hooks register on the server](evidence/G2/README.md); correlated in-game events `NOT_RUN` (needs a connected player; cross-owner cases `BLOCKED`: one account) | - |
+| G3 | BLOCKED | Pure registry done (PR #4); runtime owner source (`OwnerPlayerUId` / `OldOwnerPlayerUIds`, see [survey](research/PH-003-reflection-survey.md#4-owner-fields-h-04)) unverified | - |
+| G4 | CANDIDATE_PASS (offline) | PR #8: policy, journal, transfer, reconcile; 109 Lua tests incl. fault matrix and 1200-sequence property test; [ADR-003](decisions/ADR-003-journal-backend.md) PROPOSED | - |
 | G5 | NOT_STARTED | - | REQUIRED |
 | G6 | NOT_STARTED | - | REQUIRED |
 | G7 | NOT_STARTED | - | REQUIRED |
@@ -18,18 +18,18 @@
 |---|---|---|---|---|
 | 1 | PH-001 | DONE | Create repository, `AGENTS.md`, progress tracking and documentation | Auditable `G0` structure |
 | 2 | PH-002 | DONE | Set up `pytest`, Lua runner, syntax checks, fixtures, package tooling and CI | Minimal tests executed independently of Palworld |
-| 3 | PH-003 | REVIEW | Survey the dedicated server reflection dump, review licenses and plan the read-only probe | Ranked, source-checked declarations and 12 `REFLECTION_ONLY` hook cards. [Survey](research/PH-003-reflection-survey.md) |
-| 4 | PH-004 | TODO | Prepare a cold snapshot and manifest script | Two fixture restorations without touching real worlds |
+| 3 | PH-003 | DONE | Survey the dedicated server reflection dump, review licenses and plan the read-only probe | Ranked, source-checked declarations and 12 `REFLECTION_ONLY` hook cards. [Survey](research/PH-003-reflection-survey.md) |
+| 4 | PH-004 | PARTIAL | Prepare a cold snapshot and manifest script (manual tar + tree hash done in PH-006; script pending) | Two fixture restorations without touching real worlds |
 | 5 | PH-005 | DONE | Build the local package with `tools/build_package.py`. The official uploader GUI was not used. | Valid package, `Info.json` and documentation |
 | 6 | PH-006 | DONE | Record Windows dedicated server evidence, lab setup and tooling. Pending review. | G1 with actual logs and game build |
-| 7 | PH-007 | TODO | Build observation probe for removal | G2 with 10 correlated real events |
-| 8 | PH-008 | TODO | Implement pure Owner Registry | UT-001..012 and G3 |
-| 9 | PH-009 | TODO | Implement destination policy and journal with fakes | G4 complete |
+| 7 | PH-007 | IN_PROGRESS | Build observation probe for removal (probe + registration DONE, PR #6/#7; in-game session pending: [operator protocol](evidence/G2/OPERATOR.md)) | G2 with 10 correlated real events |
+| 8 | PH-008 | DONE (logic) | Implement pure Owner Registry | UT-001..012 and G3 |
+| 9 | PH-009 | DONE (offline) | Implement destination policy and journal with fakes | G4 complete |
 | 10 | PH-010 | TODO | Prototype cancellation in a disposable world | G5 with 20 real tests |
 
-Next ticket: PH-007 after PH-003 review.
+Next ticket: PH-007 in-game session (operator), then PH-010 design once G2/G3 evidence exists.
 
-Current blocker: G2 still requires actual dedicated-server traces, including the canonical cross-owner cases. One Steam account is available for the initial lab protocol.
+Current blocker: G2 needs a human player on the lab server (protocol: docs/evidence/G2/OPERATOR.md). Cross-owner cases need a second account.
 
 Last verified build: v1.0.5.102999 (Steam build 25247047)
 
