@@ -6,6 +6,7 @@ Saved/
 **/Pal/Saved/
 snapshots/
 lab/
+!/tools/lab/
 
 # --- Runtime data written by the mod ---
 PalHomewardData/
@@ -14,6 +15,7 @@ PalHomewardData/
 *.log
 logs/
 UE4SS.log
+!/docs/evidence/G1/startup-0[123].UE4SS.log
 
 # --- Native binaries and third-party loaders ---
 *.dll
@@ -29,6 +31,7 @@ ue4ss/
 *.key
 secrets/
 credentials*.json
+admin-password.txt
 
 # --- Python ---
 __pycache__/

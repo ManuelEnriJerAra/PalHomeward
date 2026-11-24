@@ -2,8 +2,8 @@
 
 | Gate | Status | Evidence | Human approval |
 |---|---|---|---|
-| G0 | IN_PROGRESS | - | - |
-| G1 | NOT_STARTED | - | - |
+| G0 | PASS | PR #1, PR #2 and green CI run reported by the reviewer | - |
+| G1 | PASS | [Reviewer G1 startup and disable evidence](evidence/G1/README.md). Cold snapshot restoration PASS (reviewer, 11:59). Paired before/after hashes of a no-mutation cycle are `NOT_RUN`. | - |
 | G2 | NOT_STARTED | - | - |
 | G3 | NOT_STARTED | - | - |
 | G4 | NOT_STARTED | - | - |
@@ -17,23 +17,34 @@
 | Order | Ticket | Status | Work | Completion criterion |
 |---|---|---|---|---|
 | 1 | PH-001 | DONE | Create repository, `AGENTS.md`, progress tracking and documentation | Auditable `G0` structure |
-| 2 | PH-002 | IN_PROGRESS | Set up `pytest`, Lua runner, syntax checks, fixtures, package tooling and CI | Minimal tests executed independently of Palworld |
+| 2 | PH-002 | DONE | Set up `pytest`, Lua runner, syntax checks, fixtures, package tooling and CI | Minimal tests executed independently of Palworld |
 | 3 | PH-003 | TODO | Research primary sources, licenses and versions | `docs/hook-catalog.md` with candidates marked UNVERIFIED |
 | 4 | PH-004 | TODO | Prepare a cold snapshot and manifest script | Two fixture restorations without touching real worlds |
-| 5 | PH-005 | TODO | Prepare a local package with the official uploader | Valid package, `Info.json` and documentation |
-| 6 | PH-006 | TODO | Launch Windows dedicated server and check `main.lua` | G1 with actual logs and game build |
+| 5 | PH-005 | DONE | Build the local package with `tools/build_package.py`. The official uploader GUI was not used. | Valid package, `Info.json` and documentation |
+| 6 | PH-006 | DONE | Record Windows dedicated server evidence, lab setup and tooling. Pending review. | G1 with actual logs and game build |
 | 7 | PH-007 | TODO | Build observation probe for removal | G2 with 10 correlated real events |
 | 8 | PH-008 | TODO | Implement pure Owner Registry | UT-001..012 and G3 |
 | 9 | PH-009 | TODO | Implement destination policy and journal with fakes | G4 complete |
 | 10 | PH-010 | TODO | Prototype cancellation in a disposable world | G5 with 20 real tests |
 
-Next ticket: PH-002
+Next ticket: PH-003
 
-Current blocker: `pytest` is unavailable in the current sandbox, and the dependency install cannot connect to PyPI.
+Current blocker: none for PH-003 research.
 
-Last verified build: NOT_TESTED
+Last verified build: v1.0.5.102999 (Steam build 25247047)
 
 ## Session log
+
+### PH-006 — G1 lab evidence and tooling
+
+- Phase and gate `F1/G1`. Status `DONE`, pending review. The deliverables are the reviewer evidence record, the Windows lab guide, a reproducible UE4SS package builder and portable lab scripts.
+- Verified inputs and dependencies. G0 reviewer evidence cites PR #1, PR #2 and a green CI run. The G1 inputs are the reviewer's Windows 11 lab on 2026-11-24, Palworld `v1.0.5.102999` (Steam build `25247047`), UE4SS `v4.0.0` (`30afe5ff`), the locally assembled PalHomeward package and the three redacted logs. Python 3.11+ and Windows PowerShell 5.1 support the offline tooling.
+- Authorized files and implementation. Updated the lab, evidence, compatibility, progress and package documentation. Added the UE4SS builder and synthetic tests, parameterized the two PowerShell scripts, and narrowed ignore exceptions for scripts and approved logs. Engine hooks, real saves, lab installation changes, commits and pushes were outside this ticket.
+- Acceptance and real lab results. The reviewer recorded 3/3 clean startups and a successful `-NoMods` reopen of the same world. Each redacted log has one OBSERVE marker and zero matching script errors. PalHomeward made zero game-state writes. A missing or duplicate marker, a script error, a failed clean restart or a touched UE4SS log under `-NoMods` fails the corresponding check. [G1 captures and hashes](evidence/G1/README.md)
+- Offline checks. `.venv\Scripts\python -m pytest -q` passed 20 tests with one skipped existing directory-symlink test (Windows privilege unavailable). The sandbox required an ignored `dist/` pytest temp directory and the cache provider disabled. `lua54 tests/lua/runner.lua` passed 13 tests. `.venv\Scripts\python tools/check_lua_syntax.py` checked 9 files with 0 failures. `.venv\Scripts\python tools/validate_package.py` passed for the source manifest, and validation of a newly built debug package also passed.
+- Additional checks. Windows PowerShell 5.1 parsed both scripts. A synthetic lab smoke test checked parameter and environment lookup, startup capture, the `-NoMods` timestamp comparison and the reported `KILLED (not clean)` result. A local content scan found zero matching private lab paths, credential values or timezone names in tracked or addable files.
+- Open questions and remaining Palworld tests. Cold archive restoration, paired before-and-after world hashes and multiplayer setup evidence are `NOT_RUN`. The revised PowerShell scripts and builder were exercised offline. The reviewer then ran the revised `tools/lab/lab.ps1` end-to-end on the lab (start, REST save, clean shutdown): PASS. The [lab guide](lab-setup.md) records the clean shutdown and restore procedure.
+- Rollback and next step. Revert the PH-006 documentation and tool changes to undo the ticket. Generated packages and synthetic test artifacts are isolated under ignored `dist/`. The next ticket is PH-003 primary-source, version and license research. Retain the pending restoration evidence as an open F1 item.
 
 ### PH-002 — Offline tests and package tooling
 
