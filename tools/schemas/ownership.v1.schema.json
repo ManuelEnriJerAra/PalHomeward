@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PalHomeward ownership registry v1 fixture contract",
+  "type": "object",
+  "required": ["schemaVersion", "worldId", "gameBuild", "revision", "pals"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "worldId": { "$ref": "#/$defs/nonEmptyString" },
+    "gameBuild": { "$ref": "#/$defs/nonEmptyString" },
+    "revision": { "$ref": "#/$defs/revision" },
+    "pals": {
+      "type": "object",
+      "propertyNames": { "minLength": 1 },
+      "additionalProperties": { "$ref": "#/$defs/pal" }
+    }
+  },
+  "$defs": {
+    "nonEmptyString": { "type": "string", "minLength": 1 },
+    "revision": { "type": "integer", "minimum": 0 },
+    "pal": {
+      "type": "object",
+      "required": [
+        "ownerUid", "ownerEvidence", "ownerEvidenceRevision", "status",
+        "lastKnownBaseId", "lastKnownContainerId", "lastSeenOperationId"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "ownerUid": { "anyOf": [{ "$ref": "#/$defs/nonEmptyString" }, { "type": "null" }] },
+        "ownerEvidence": { "$ref": "#/$defs/nonEmptyString" },
+        "ownerEvidenceRevision": { "$ref": "#/$defs/revision" },
+        "status": { "enum": ["VERIFIED", "UNRESOLVED", "CONFLICT"] },
+        "lastKnownBaseId": { "$ref": "#/$defs/nonEmptyString" },
+        "lastKnownContainerId": { "$ref": "#/$defs/nonEmptyString" },
+        "lastSeenOperationId": { "$ref": "#/$defs/nonEmptyString" }
+      },
+      "if": { "properties": { "status": { "const": "VERIFIED" } }, "required": ["status"] },
+      "then": { "properties": { "ownerUid": { "$ref": "#/$defs/nonEmptyString" } } }
+    }
+  }
+}
