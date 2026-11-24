@@ -1,0 +1,10 @@
+{
+  "ModName": "PalHomeward",
+  "PackageName": "PalHomeward",
+  "Version": "0.0.1",
+  "DebugMode": false,
+  "Author": "PalHomeward contributors",
+  "Dependencies": ["UE4SS"],
+  "Tags": ["UE4SS", "Utilities"],
+  "InstallRule": [{"Type": "Lua", "IsServer": true, "Targets": ["./Scripts"]}]
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "worldId": "TEST-WORLD-01",
+  "gameBuild": "TEST-GAME-BUILD",
+  "revision": 17,
+  "pals": {
+    "TEST-PAL-0001": {
+      "ownerUid": "TEST-PLAYER-A",
+      "ownerEvidence": "verified_native_source",
+      "ownerEvidenceRevision": 3,
+      "status": "VERIFIED",
+      "lastKnownBaseId": "TEST-BASE-01",
+      "lastKnownContainerId": "TEST-CONTAINER-01",
+      "lastSeenOperationId": "TEST-OP-01"
+    }
+  }
+}

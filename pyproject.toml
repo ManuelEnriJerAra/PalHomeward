@@ -1,0 +1,13 @@
+[project]
+name = "palhomeward"
+version = "0.0.1"
+description = "Offline tooling for the PalHomeward server-side Lua mod"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = [
+    "lua: requires Lua 5.4 or its compiler",
+    "contract: verifies package or fixture schemas",
+]

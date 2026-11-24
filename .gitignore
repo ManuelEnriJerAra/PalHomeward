@@ -40,6 +40,9 @@ venv/
 htmlcov/
 *.egg-info/
 
+# --- Built Workshop packages ---
+dist/
+
 # --- Editors / OS ---
 .vscode/
 .idea/
