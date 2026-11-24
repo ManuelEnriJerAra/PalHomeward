@@ -1,0 +1,15 @@
+# PH-003 Dependency and reference licenses
+
+Sources were reviewed offline for the Windows lab and the MIT PalHomeward repository. External documentation references come from the project's existing source record.
+
+| Source | License or status | Use in PalHomeward |
+|---|---|---|
+| UE4SS v4.0.0 | MIT. Verified directly in `<LAB_ROOT>/downloads/ue4ss-v4.0.0/extracted/ue4ss/LICENSE`, lines 1–17, copyright 2022 Narknon. | Runtime dependency for the lab. Preserve the applicable copyright and license notice when redistributing the UE4SS payload. The existing packaging guide includes this file. [Lab packaging guide](../lab-setup.md#4-build-and-install-both-workshop-packages) |
+| Pocketpair mod loader documentation | Documentation only. Used the project references for loader behavior and packaging. No Pocketpair source code was used. | Consult the loader and uploader guides. This ticket adds no Pocketpair implementation. [Server mod guide](https://docs.palworldgame.com/settings-and-operation/mod/), [Uploader technical guide](https://github.com/pocketpairjp/PalworldModUploader/blob/main/PalworldModUploader/docs/en/04-Tech.md) |
+| REF-01 EnhancedBaseLogistics | No LICENSE, COPYING or NOTICE file found in the supplied checkout. Treat the code as all rights reserved. | Concept reading only. `Scripts/main.lua:10` names the same worker-director spawn notification found in this lab dump. No code or passages were reused. |
+| REF-02 TidyBaseInfo | Excluded due to the AI-use prohibition reported in the ticket. The ticket supplies the restriction “Use the Work(s) … to train, fine-tune, evaluate, or otherwise develop any artificial intelligence or machine learning model” without written authorization. | The reference was excluded from searches, reading, evaluation and derivation. |
+| SAVE-01 Palworld Save Toolkit | GPL-3.0. The supplied `LICENSE:1–2` identifies GNU General Public License version 3. | `SAVE-FORMAT.md:88,120–125` describes character keys and per-player container IDs. Used at concept level only. If offline save inspection is ever needed, keep it in a separate GPL tool or implement it independently from the public format description. No SAVE-01 code reuse in the MIT repository. |
+| Lua 5.4 | MIT. The local test interpreter reports Lua `5.4.8`. | Local test runtime. See the Lua license notice for attribution if distributing Lua itself. [Lua license](https://www.lua.org/license.html) |
+| pytest `8.4.2` | MIT. Confirmed in installed package metadata and `pytest-8.4.2.dist-info/licenses/LICENSE`. | Development test dependency pinned in `requirements-dev.txt`. |
+| jsonschema `4.25.1` | MIT. Confirmed in installed metadata (`License-Expression`) and `jsonschema-4.25.1.dist-info/licenses/COPYING`. | Development validation dependency pinned in `requirements-dev.txt`. |
+| Lab reflection dump | Game data from the exact pinned server build, held outside the repository. | Used as a read-only declaration index. Only the short necessary declarations and line references appear in research docs. The dump itself is not committed or packaged. |
